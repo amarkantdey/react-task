@@ -4,19 +4,6 @@ import { pink, green } from '@mui/material/colors';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-const GreenSwitch = styled(Switch)(({ theme }) => ({
-  '& .MuiSwitch-switchBase.Mui-checked': {
-    color: green[600],
-    '&:hover': {
-      backgroundColor: alpha(green[600], theme.palette.action.hoverOpacity),
-    },
-  },
-  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-    backgroundColor: green[600],
-  },
-}));
-
-
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
@@ -71,13 +58,13 @@ const IOSSwitch = styled((props) => (
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-export default function CustomSwitch() {
+export default function CustomSwitch(props) {
   
-  const [label, setLabel] = React.useState("Allowed")
-  const [labelColor, setLabelColor] = React.useState("#2ECA45");
+  const [label, setLabel] = React.useState(props.checked ? "Allowed" : 'Blocked' )
+  const [labelColor, setLabelColor] = React.useState(props.checked ? "#2ECA45" : "red" );
+  const [disableSwitch, setDisableSwitch] = React.useState(props.disabled ? true : false );
 
   const updateLabel = (event) => {
-    console.log(event.target.checked)
     if(event.target.checked) {
       setLabel("Allowed")
       setLabelColor("#2ECA45")
@@ -93,10 +80,11 @@ export default function CustomSwitch() {
       {/* <GreenSwitch {...label} defaultChecked /> */}
       <FormControlLabel
           value="bottom"
-          control={<IOSSwitch sx={{ m: 1 }} onChange={updateLabel} defaultChecked  />}
+          control={<IOSSwitch sx={{ m: 1 }} onChange={updateLabel} defaultChecked={props.checked}   />}
           label={label}
           sx={{color: labelColor}}
           labelPlacement="bottom"
+          disabled={disableSwitch}
         />
     </div>
   );

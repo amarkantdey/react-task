@@ -12,21 +12,21 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import CustomSwitch from './CustomSwitch'
 
-export default function CardComponent() {
-
+export default function CardComponent(props) {
+  const [background, setBackground] = React.useState(props.disabled ? "#f4f4f4" : "")
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, background: background }}>
       <CardHeader
         action={
-          <CustomSwitch />
+          <CustomSwitch key={props.plugin?.description} checked={props.checked} disabled={props.disabled} />
         }
-        title="Plugin 1"
+        title={props.plugin?.title}
         sx={{ textAlign: 'start'}}
       />
 
-      <CardContent>
+      <CardContent sx={{height: 100}}>
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'start'}}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  
+            {props.plugin?.description}  
         </Typography>
       </CardContent>
 
