@@ -71,9 +71,11 @@ const IOSSwitch = styled((props) => (
 const drawerWidth = 240;
 
 export default function LeftDrawer(props) {
+
   const [header, setHeader] = React.useState("Marketing Plugins");
   const [selectedTab, setSelectedTab] = React.useState(null);
   const [disableAllPlugins, setDisableAllPlugins] = React.useState(false);
+  const [disableAllPluginNames, setDisableAllPluginsNames] = React.useState("");
 
   const setPageDetail = (tabName, tabNameInternal) => {
     setHeader(tabName + " Plugins");
@@ -83,11 +85,13 @@ export default function LeftDrawer(props) {
   const updatePlugins = (event) => {
     if(event.target.checked) {
       setDisableAllPlugins(true);
-      props.enableDisableAllPlugin()
+      let pluginNames = [...props.tabData[selectedTab].active,...props.tabData[selectedTab].inactive, ...props.tabData[selectedTab].disabled]
+      setDisableAllPluginsNames(pluginNames)
+      props.enableDisableAllPlugin(true, selectedTab)
     }
     else {
       setDisableAllPlugins(false);
-      props.enableDisableAllPlugin()
+      props.enableDisableAllPlugin(false, selectedTab)
     }
   }
 
@@ -196,6 +200,7 @@ export default function LeftDrawer(props) {
                 plugins={props.plugins}
                 selectedTab={selectedTab}
                 disableAllPlugins={disableAllPlugins}
+                disableAllPluginNames={disableAllPluginNames}
                 updatePlugin={updatePlugin}
               />
             }

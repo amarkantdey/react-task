@@ -6,6 +6,11 @@ import Grid from "@mui/material/Grid";
 
 export default function DrawerContent(props) {
 
+  const [selectedTab, setSelectedTab] = React.useState(props.selectedTab);
+  const [disableAllPlugins, setDisableAllPlugins] = React.useState(props.disableAllPlugins);
+  const [disableAllPluginNames, setDisableAllPluginsNames] = React.useState(props.disableAllPluginNames);
+
+
   const updatePlugin = (pluginName, isActive) => {
     props.updatePlugin(pluginName, isActive)
   }
@@ -32,7 +37,9 @@ export default function DrawerContent(props) {
                 pluginName={pluginName}
                 checked={true}
                 key={index}
-                disabled={props.disableAllPlugins}
+                selectedTab={selectedTab}
+                disabled={disableAllPlugins}
+                disableAllPluginNames={disableAllPluginNames}
                 updatePlugin={updatePlugin}
               />
             </Grid>
@@ -47,7 +54,9 @@ export default function DrawerContent(props) {
                   pluginName={pluginName}
                   checked={false}
                   key={index}
+                  selectedTab={props.selectedTab}
                   disabled={props.disableAllPlugins}
+                  disableAllPluginNames={props.disableAllPluginNames}
                   updatePlugin={updatePlugin}
                 />
               </Grid>
@@ -63,7 +72,9 @@ export default function DrawerContent(props) {
                   pluginName={pluginName}
                   checked={false}
                   key={index}
+                  selectedTab={props.selectedTab}
                   disabled={true}
+                  disableAllPluginNames={props.disableAllPluginNames}
                   updatePlugin={updatePlugin}
                 />
               </Grid>

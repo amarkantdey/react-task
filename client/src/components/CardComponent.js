@@ -6,8 +6,10 @@ import Typography from '@mui/material/Typography';
 import CustomSwitch from './CustomSwitch'
 
 export default function CardComponent(props) {
-  const [background, setBackground] = React.useState(props.disabled ? "#f4f4f4" : "")
-  React.useEffect(() => { setBackground(props.disabled ? "#f4f4f4" : "") }, [props.disabled]);
+
+
+  const [background, setBackground] = React.useState(props.disabled || (props.disabled && props.disableAllPluginNames?.includes(props.pluginName)) ? "#f4f4f4" : "")
+  React.useEffect(() => { setBackground(props.disabled || (props.disabled && props.disableAllPluginNames?.includes(props.pluginName)) ? "#f4f4f4" : "") }, [props.disabled ]);
 
 
   const updatePlugin = (isActive) => {
@@ -18,7 +20,7 @@ export default function CardComponent(props) {
     <Card sx={{ maxWidth: 345, background: background }}>
       <CardHeader
         action={
-          <CustomSwitch key={props.plugin?.title} checked={props.checked} disabled={props.disabled} updatePlugin={updatePlugin} />
+          <CustomSwitch key={props.plugin?.title} checked={props.checked} disabled={props.disabled && props.disableAllPluginNames?.includes(props.pluginName)} updatePlugin={updatePlugin} />
         }
         title={props.plugin?.title}
         sx={{ textAlign: 'start'}}
