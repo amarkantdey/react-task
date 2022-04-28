@@ -66,10 +66,12 @@ export default function CustomSwitch(props) {
     if(event.target.checked) {
       setLabel("Allowed")
       setLabelColor("#2ECA45")
+      props.updatePlugin(true)
     }
     else {
       setLabel("Blocked")
       setLabelColor("red")
+      props.updatePlugin(false)
     }
   }
 

@@ -5,6 +5,11 @@ import CardComponent from "./CardComponent";
 import Grid from "@mui/material/Grid";
 
 export default function DrawerContent(props) {
+
+  const updatePlugin = (pluginName, isActive) => {
+    props.updatePlugin(pluginName, isActive)
+  }
+
   return (
     <Box
       component="main"
@@ -24,9 +29,11 @@ export default function DrawerContent(props) {
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
               <CardComponent
                 plugin={props.plugins[pluginName]}
+                pluginName={pluginName}
                 checked={true}
                 key={index}
                 disabled={props.disableAllPlugins}
+                updatePlugin={updatePlugin}
               />
             </Grid>
           ))}
@@ -37,9 +44,11 @@ export default function DrawerContent(props) {
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                 <CardComponent
                   plugin={props.plugins[pluginName]}
+                  pluginName={pluginName}
                   checked={false}
                   key={index}
                   disabled={props.disableAllPlugins}
+                  updatePlugin={updatePlugin}
                 />
               </Grid>
             )
@@ -51,9 +60,11 @@ export default function DrawerContent(props) {
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                 <CardComponent
                   plugin={props.plugins[pluginName]}
+                  pluginName={pluginName}
                   checked={false}
                   key={index}
                   disabled={true}
+                  updatePlugin={updatePlugin}
                 />
               </Grid>
             )

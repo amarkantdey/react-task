@@ -83,15 +83,21 @@ export default function LeftDrawer(props) {
   const updatePlugins = (event) => {
     if(event.target.checked) {
       setDisableAllPlugins(true);
+      props.enableDisableAllPlugin()
     }
     else {
       setDisableAllPlugins(false);
+      props.enableDisableAllPlugin()
     }
   }
 
   React.useEffect(() => {
     setSelectedTab("tab1");
   }, []);
+
+  const updatePlugin = (pluginName, isActive) => {
+    props.updatePlugin(pluginName, isActive, selectedTab)
+  }
 
   return (
     <Box sx={{display: "flex"}}>
@@ -190,6 +196,7 @@ export default function LeftDrawer(props) {
                 plugins={props.plugins}
                 selectedTab={selectedTab}
                 disableAllPlugins={disableAllPlugins}
+                updatePlugin={updatePlugin}
               />
             }
           ></Route>
