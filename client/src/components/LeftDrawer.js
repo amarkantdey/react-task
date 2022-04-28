@@ -76,10 +76,12 @@ export default function LeftDrawer(props) {
   const [selectedTab, setSelectedTab] = React.useState(null);
   const [disableAllPlugins, setDisableAllPlugins] = React.useState(false);
   const [disableAllPluginNames, setDisableAllPluginsNames] = React.useState("");
+  const [selected, setSelected] = React.useState(0);
 
-  const setPageDetail = (tabName, tabNameInternal) => {
+  const setPageDetail = (tabName, tabNameInternal, index) => {
     setHeader(tabName + " Plugins");
     setSelectedTab(tabNameInternal);
+    setSelected(index)
   };
 
   const updatePlugins = (event) => {
@@ -146,15 +148,16 @@ export default function LeftDrawer(props) {
           <List>
             {props.tabs?.map((tabName, index) => (
               <Link
-                to="/"
+                to={`/${props.tabData[tabName]?.title.toLowerCase()}`}
                 style={{textDecoration: "none", color: "#060314bf"}}
                 key={tabName}
               >
                 <ListItem
                   button
                   key={tabName}
+                  selected={selected == index }
                   onClick={() =>
-                    setPageDetail(props.tabData[tabName]?.title, tabName)
+                    setPageDetail(props.tabData[tabName]?.title, tabName, index)
                   }
                 >
                   <ListItemIcon>
@@ -174,7 +177,6 @@ export default function LeftDrawer(props) {
             ))}
           </List>
           <Box sx={{marginTop: 'auto', marginBottom: '3rem'}}>
-            {/* <GreenSwitch {...label} defaultChecked /> */}
             <FormControlLabel
               value="bottom"
               control={
@@ -192,7 +194,7 @@ export default function LeftDrawer(props) {
         <Routes>
           <Route
             exact
-            path="/"
+            path="*"
             element={
               <DrawerContent
                 tabData={props.tabData}
