@@ -20,7 +20,7 @@ export default function CardComponent(props) {
     <Card sx={{ maxWidth: 345, background: background }}>
       <CardHeader
         action={
-          <CustomSwitch key={props.plugin?.title} checked={props.checked} disabled={props.disabled && props.disableAllPluginNames?.includes(props.pluginName)} updatePlugin={updatePlugin} />
+          <CustomSwitch key={props.plugin?.title} checked={props.checked} disabled={props.disabled || (props.disabled && props.disableAllPluginNames?.includes(props.pluginName))} updatePlugin={updatePlugin} />
         }
         title={props.plugin?.title}
         sx={{ textAlign: 'start'}}
