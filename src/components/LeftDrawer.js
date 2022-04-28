@@ -13,23 +13,85 @@ import ListItemText from "@mui/material/ListItemText";
 import AddBusiness from "@mui/icons-material/AddBusiness";
 import AddCard from "@mui/icons-material/AddCard";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import CardComponent from "./CardComponent";
-import Grid from "@mui/material/Grid";
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 import DrawerContent from "./DrawerContent";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
+import { alpha, styled } from '@mui/material/styles';
+import { pink, green } from '@mui/material/colors';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+const IOSSwitch = styled((props) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({theme}) => ({
+  "width": 42,
+  "height": 26,
+  "padding": 0,
+  "& .MuiSwitch-switchBase": {
+    "padding": 0,
+    "margin": 2,
+    "transitionDuration": "300ms",
+    "&.Mui-checked": {
+      "transform": "translateX(16px)",
+      "color": "#fff",
+      "& + .MuiSwitch-track": {
+        backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+        opacity: 1,
+        border: 0,
+      },
+      "&.Mui-disabled + .MuiSwitch-track": {
+        opacity: 0.5,
+      },
+    },
+    "&.Mui-focusVisible .MuiSwitch-thumb": {
+      color: "#33cf4d",
+      border: "6px solid #fff",
+    },
+    "&.Mui-disabled .MuiSwitch-thumb": {
+      color:
+        theme.palette.mode === "light"
+          ? theme.palette.grey[100]
+          : theme.palette.grey[600],
+    },
+    "&.Mui-disabled + .MuiSwitch-track": {
+      opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxSizing: "border-box",
+    width: 22,
+    height: 22,
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 26 / 2,
+    backgroundColor: theme.palette.mode === "light" ? "red" : "#39393D",
+    opacity: 1,
+    transition: theme.transitions.create(["background-color"], {
+      duration: 500,
+    }),
+  },
+}));
 
 const drawerWidth = 240;
 
 export default function LeftDrawer(props) {
-
   const [header, setHeader] = React.useState("Marketing Plugins");
   const [selectedTab, setSelectedTab] = React.useState(null);
+  const [disableAllPlugins, setDisableAllPlugins] = React.useState(false);
 
   const setPageDetail = (tabName, tabNameInternal) => {
     setHeader(tabName + " Plugins");
     setSelectedTab(tabNameInternal);
   };
+
+  const updatePlugins = (event) => {
+    if(event.target.checked) {
+      setDisableAllPlugins(true);
+    }
+    else {
+      setDisableAllPlugins(false);
+    }
+  }
 
   React.useEffect(() => {
     setSelectedTab("tab1");
@@ -74,10 +136,14 @@ export default function LeftDrawer(props) {
             alt="Your logo."
             src="dummy-logo.png"
           />
-          
+
           <List>
             {props.tabs?.map((tabName, index) => (
-              <Link to="/" style={{textDecoration: "none", color: "#060314bf"}} key={tabName}>
+              <Link
+                to="/"
+                style={{textDecoration: "none", color: "#060314bf"}}
+                key={tabName}
+              >
                 <ListItem
                   button
                   key={tabName}
@@ -101,32 +167,36 @@ export default function LeftDrawer(props) {
               </Link>
             ))}
           </List>
-          <Button sx={{marginTop: 'auto', marginBottom:'3rem'}}>Click me</Button>
+          <Box sx={{marginTop: 'auto', marginBottom: '3rem'}}>
+            {/* <GreenSwitch {...label} defaultChecked /> */}
+            <FormControlLabel
+              value="bottom"
+              control={
+                <IOSSwitch
+                  sx={{m: 1}}
+                  onChange={updatePlugins}
+                />
+              }
+              label="All plugins disabled"
+              sx={{color: 'black'}}
+              labelPlacement="start"
+            />
+          </Box>
         </Drawer>
         <Routes>
-          <Route exact path="/" element={<DrawerContent tabData={props.tabData} tabs={props.tabs} plugins={props.plugins} selectedTab={selectedTab}/>}>
-            {/* <Box
-              component="main"
-              sx={{
-                flexGrow: 1,
-                bgcolor: "background.default",
-                p: 3,
-                display: "flex",
-                mt: 10,
-                justifyContent: "space-between",
-              }}
-            >
-              <Toolbar />
-              <Grid container spacing={4}>
-                {props.tabData &&
-                  props.tabData["tab1"]?.active.map((pluginName, index) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3}>
-                      <CardComponent plugin={props.plugins[pluginName]} />
-                    </Grid>
-                  ))}
-              </Grid>
-            </Box> */}
-          </Route>
+          <Route
+            exact
+            path="/"
+            element={
+              <DrawerContent
+                tabData={props.tabData}
+                tabs={props.tabs}
+                plugins={props.plugins}
+                selectedTab={selectedTab}
+                disableAllPlugins={disableAllPlugins}
+              />
+            }
+          ></Route>
         </Routes>
       </Router>
     </Box>

@@ -26,6 +26,7 @@ export default function DrawerContent(props) {
                 plugin={props.plugins[pluginName]}
                 checked={true}
                 key={index}
+                disabled={props.disableAllPlugins}
               />
             </Grid>
           ))}
@@ -38,6 +39,7 @@ export default function DrawerContent(props) {
                   plugin={props.plugins[pluginName]}
                   checked={false}
                   key={index}
+                  disabled={props.disableAllPlugins}
                 />
               </Grid>
             )
