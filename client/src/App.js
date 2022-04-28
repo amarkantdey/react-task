@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     fetch(
-      "data.json"
+      "http://localhost:5000/getData"
     )
       .then((res) => res.json())
       .then((json) => {

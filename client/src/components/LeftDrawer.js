@@ -1,12 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -15,9 +13,7 @@ import AddCard from "@mui/icons-material/AddCard";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 import DrawerContent from "./DrawerContent";
-import {Button} from "@mui/material";
-import { alpha, styled } from '@mui/material/styles';
-import { pink, green } from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 

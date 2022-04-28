@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { alpha, styled } from '@mui/material/styles';
-import { pink, green } from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
@@ -55,14 +54,13 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
 export default function CustomSwitch(props) {
   
   const [label, setLabel] = React.useState(props.checked ? "Allowed" : 'Blocked' )
   const [labelColor, setLabelColor] = React.useState(props.checked ? "#2ECA45" : "red" );
   const [disableSwitch, setDisableSwitch] = React.useState(props.disabled ? true : false );
+
+  React.useEffect(() => { setDisableSwitch(props.disabled ? true : false ) }, [props.disabled]);
 
   const updateLabel = (event) => {
     if(event.target.checked) {
@@ -77,7 +75,6 @@ export default function CustomSwitch(props) {
 
   return (
     <div>
-      {/* <GreenSwitch {...label} defaultChecked /> */}
       <FormControlLabel
           value="bottom"
           control={<IOSSwitch sx={{ m: 1 }} onChange={updateLabel} defaultChecked={props.checked}   />}
