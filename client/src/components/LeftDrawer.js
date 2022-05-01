@@ -77,22 +77,52 @@ export default function LeftDrawer(props) {
   const [disableAllPlugins, setDisableAllPlugins] = React.useState(false);
   const [disableAllPluginNames, setDisableAllPluginsNames] = React.useState("");
   const [selected, setSelected] = React.useState(0);
+  const [tabData, setTabData] = React.useState(props.tabData);
+  const [disableAllPluginChecked, setDisableAllPluginChecked] = React.useState(false);
+  React.useEffect(() => { 
+    setTabData(props.tabData) 
+    setDisableAllPlugins(false);
+    setDisableAllPluginsNames("")
+  }, [props.tabData]);
 
   const setPageDetail = (tabName, tabNameInternal, index) => {
     setHeader(tabName + " Plugins");
     setSelectedTab(tabNameInternal);
     setSelected(index)
+    setDisableAllPlugins(false);
+    setDisableAllPluginsNames("")
   };
+
+  const setPluginDisabled = (tabName) => {
+    tabData[tabName]?.active?.forEach(activePlugin => {
+      if(tabData[tabName]?.disabled?.includes(activePlugin)){
+        setDisableAllPluginChecked(true);
+      }
+      else{
+        setDisableAllPluginChecked(false);
+      }
+    })
+    tabData[tabName]?.inactive?.forEach(inactivePlugin => {
+      if(tabData[tabName]?.disabled?.includes(inactivePlugin)){
+        setDisableAllPluginChecked(true);
+      }
+      else{
+        setDisableAllPluginChecked(false);
+      }
+    })
+  }
 
   const updatePlugins = (event) => {
     if(event.target.checked) {
       setDisableAllPlugins(true);
       let pluginNames = [...props.tabData[selectedTab].active,...props.tabData[selectedTab].inactive, ...props.tabData[selectedTab].disabled]
       setDisableAllPluginsNames(pluginNames)
+      setDisableAllPluginChecked(true);
       props.enableDisableAllPlugin(true, selectedTab)
     }
     else {
       setDisableAllPlugins(false);
+      setDisableAllPluginChecked(false);
       props.enableDisableAllPlugin(false, selectedTab)
     }
   }
@@ -157,7 +187,10 @@ export default function LeftDrawer(props) {
                   key={tabName}
                   selected={selected == index }
                   onClick={() =>
-                    setPageDetail(props.tabData[tabName]?.title, tabName, index)
+                    {
+                      setPageDetail(props.tabData[tabName]?.title, tabName, index)
+                      setPluginDisabled(tabName)
+                    }
                   }
                 >
                   <ListItemIcon>
@@ -183,6 +216,7 @@ export default function LeftDrawer(props) {
                 <IOSSwitch
                   sx={{m: 1}}
                   onChange={updatePlugins}
+                  checked={disableAllPluginChecked}
                 />
               }
               label="All plugins disabled"
@@ -197,7 +231,7 @@ export default function LeftDrawer(props) {
             path="*"
             element={
               <DrawerContent
-                tabData={props.tabData}
+                tabData={tabData}
                 tabs={props.tabs}
                 plugins={props.plugins}
                 selectedTab={selectedTab}

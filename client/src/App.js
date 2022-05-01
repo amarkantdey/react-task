@@ -35,23 +35,24 @@ function App() {
   };
 
   const enableDisableAllPlugin = async (isDisabled, selectedTab) => {
+    let tmpData = data;
     if (isDisabled) {
-      data.tabdata[selectedTab].active.forEach((activePlugin) => {
-        data.tabdata[selectedTab].disabled.push(activePlugin);
+      tmpData.tabdata[selectedTab].active.forEach((activePlugin) => {
+        tmpData.tabdata[selectedTab].disabled.push(activePlugin);
       });
-      data.tabdata[selectedTab].active = [];
-      data.tabdata[selectedTab].inactive.forEach((inactivePlugin) => {
-        data.tabdata[selectedTab].disabled.push(inactivePlugin);
+      tmpData.tabdata[selectedTab].inactive.forEach((inactivePlugin) => {
+        tmpData.tabdata[selectedTab].disabled.push(inactivePlugin);
       });
-      data.tabdata[selectedTab].inactive = [];
     } else {
-      data.tabdata[selectedTab].disabled.forEach((activePlugin) => {
-        data.tabdata[selectedTab].active.push(activePlugin);
+      tmpData.tabdata[selectedTab].disabled.forEach((activePlugin) => {
+        if(!tmpData.tabdata[selectedTab].active.includes(activePlugin))
+        tmpData.tabdata[selectedTab].active.push(activePlugin);
       });
-      data.tabdata[selectedTab].disabled = [];
+      tmpData.tabdata[selectedTab].disabled = [];
+      tmpData.tabdata[selectedTab].inactive = [];
     }
 
-    await updatePluginData(data);
+    await updatePluginData(tmpData);
     await getPluginData();
   };
 

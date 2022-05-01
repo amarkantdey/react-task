@@ -55,6 +55,8 @@ const IOSSwitch = styled((props) => (
 }));
 
 export default function CustomSwitch(props) {
+
+  
   
   const [label, setLabel] = React.useState(props.checked ? "Allowed" : 'Blocked' )
   const [labelColor, setLabelColor] = React.useState(props.checked ? "#2ECA45" : "red" );
