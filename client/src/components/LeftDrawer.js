@@ -11,7 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 import AddBusiness from "@mui/icons-material/AddBusiness";
 import AddCard from "@mui/icons-material/AddCard";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate  } from "react-router-dom";
 import DrawerContent from "./DrawerContent";
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
@@ -72,18 +72,26 @@ const drawerWidth = 240;
 
 export default function LeftDrawer(props) {
 
+  let navigate = useNavigate();
   const [header, setHeader] = React.useState("Marketing Plugins");
   const [selectedTab, setSelectedTab] = React.useState(null);
   const [disableAllPlugins, setDisableAllPlugins] = React.useState(false);
   const [disableAllPluginNames, setDisableAllPluginsNames] = React.useState("");
   const [selected, setSelected] = React.useState(0);
   const [tabData, setTabData] = React.useState(props.tabData);
+  const [tabs, setTabs] = React.useState(props.tabs);
   const [disableAllPluginChecked, setDisableAllPluginChecked] = React.useState(false);
   React.useEffect(() => { 
     setTabData(props.tabData) 
     setDisableAllPlugins(false);
     setDisableAllPluginsNames("")
+    navigate("/marketing");
   }, [props.tabData]);
+
+  React.useEffect(() => { 
+    setTabs(props.tabs)
+  }, [props.tabs]);
+
 
   const setPageDetail = (tabName, tabNameInternal, index) => {
     setHeader(tabName + " Plugins");
@@ -152,7 +160,6 @@ export default function LeftDrawer(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Router>
         <Drawer
           sx={{
             "width": drawerWidth,
@@ -176,7 +183,7 @@ export default function LeftDrawer(props) {
           />
 
           <List>
-            {props.tabs?.map((tabName, index) => (
+            {tabs?.map((tabName, index) => (
               <Link
                 to={`/${props.tabData[tabName]?.title.toLowerCase()}`}
                 style={{textDecoration: "none", color: "#060314bf"}}
@@ -228,11 +235,12 @@ export default function LeftDrawer(props) {
         <Routes>
           <Route
             exact
-            path="*"
+            path="/marketing"
+            index 
             element={
               <DrawerContent
                 tabData={tabData}
-                tabs={props.tabs}
+                tabs={tabs}
                 plugins={props.plugins}
                 selectedTab={selectedTab}
                 disableAllPlugins={disableAllPlugins}
@@ -241,8 +249,38 @@ export default function LeftDrawer(props) {
               />
             }
           ></Route>
+           <Route
+            exact
+            path="/finance"
+            element={
+              <DrawerContent
+                tabData={tabData}
+                tabs={tabs}
+                plugins={props.plugins}
+                selectedTab={selectedTab}
+                disableAllPlugins={disableAllPlugins}
+                disableAllPluginNames={disableAllPluginNames}
+                updatePlugin={updatePlugin}
+              />
+            }
+          ></Route>
+           <Route
+            exact
+            path="/personnel"
+            element={
+              <DrawerContent
+                tabData={tabData}
+                tabs={tabs}
+                plugins={props.plugins}
+                selectedTab={selectedTab}
+                disableAllPlugins={disableAllPlugins}
+                disableAllPluginNames={disableAllPluginNames}
+                updatePlugin={updatePlugin}
+              />
+            }
+          ></Route>
+          <Route path="*" element={<Navigate  to="/marketing" replace />} />
         </Routes>
-      </Router>
     </Box>
   );
 }
